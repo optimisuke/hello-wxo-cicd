@@ -1,0 +1,41 @@
+name: Deploy Watson Orchestrate Agent
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install ibm-watsonx-orchestrate
+
+      - name: Configure Watson Orchestrate credentials
+        env:
+          WATSON_ORCHESTRATE_API_KEY: ${{ secrets.WATSON_ORCHESTRATE_API_KEY }}
+          WATSON_ORCHESTRATE_INSTANCE_ID: ${{ secrets.WATSON_ORCHESTRATE_INSTANCE_ID }}
+          WATSON_ORCHESTRATE_URL: ${{ secrets.WATSON_ORCHESTRATE_URL }}
+        run: |
+          orchestrate configure --api-key "$WATSON_ORCHESTRATE_API_KEY" --instance-id "$WATSON_ORCHESTRATE_INSTANCE_ID" --url "$WATSON_ORCHESTRATE_URL"
+
+      - name: Import tools
+        run: |
+          orchestrate tools import -f tools/
+
+      - name: Import agents
+        run: |
+          orchestrate agents import -f agents/hello-agent.yaml
