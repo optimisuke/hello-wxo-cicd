@@ -1,4 +1,4 @@
-name: Deploy Watson Orchestrate Agent
+name: Deploy watsonx Orchestrate Agent
 
 on:
   push:
@@ -24,17 +24,17 @@ jobs:
           python -m pip install --upgrade pip
           pip install ibm-watsonx-orchestrate
 
-      - name: Configure Watson Orchestrate credentials
+      - name: Configure watsonx Orchestrate environment
         env:
-          WATSON_ORCHESTRATE_API_KEY: ${{ secrets.WATSON_ORCHESTRATE_API_KEY }}
-          WATSON_ORCHESTRATE_INSTANCE_ID: ${{ secrets.WATSON_ORCHESTRATE_INSTANCE_ID }}
-          WATSON_ORCHESTRATE_URL: ${{ secrets.WATSON_ORCHESTRATE_URL }}
+          WO_API_KEY: ${{ secrets.WO_API_KEY }}
+          WO_URL: ${{ secrets.WO_URL }}
         run: |
-          orchestrate configure --api-key "$WATSON_ORCHESTRATE_API_KEY" --instance-id "$WATSON_ORCHESTRATE_INSTANCE_ID" --url "$WATSON_ORCHESTRATE_URL"
+          orchestrate env add -n production -u "$WO_URL"
+          orchestrate env activate production --api-key "$WO_API_KEY"
 
       - name: Import tools
         run: |
-          orchestrate tools import -f tools/
+          orchestrate tools import -k python -f tools/return_hello.py
 
       - name: Import agents
         run: |
