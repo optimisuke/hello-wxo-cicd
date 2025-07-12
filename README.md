@@ -1,49 +1,49 @@
-# Watson Orchestrate Hello Agent CI/CD
+# watsonx Orchestrate Hello Agent CI/CD
 
-このプロジェクトは IBM Watson Orchestrate エージェントを GitHub Actions で自動デプロイするためのサンプルです。
+このプロジェクトは IBM watsonx Orchestrate エージェントを GitHub Actions で自動デプロイするためのサンプルです。
 
 ## セットアップ
 
-### 必要なGitHub Secrets
+### 必要な GitHub Secrets
 
-以下のSecretsをGitHubリポジトリに設定してください：
+以下の Secrets を GitHub リポジトリに設定してください：
 
-1. `WATSON_ORCHESTRATE_API_KEY` - Watson Orchestrate API キー
-2. `WATSON_ORCHESTRATE_INSTANCE_ID` - Watson Orchestrate インスタンス ID  
-3. `WATSON_ORCHESTRATE_URL` - Watson Orchestrate URL (例: https://api.us-south.watson-orchestrate.cloud.ibm.com)
+1. `WO_API_KEY` - watsonx Orchestrate API キー
+2. `WO_URL` - watsonx Orchestrate サービスインスタンス URL (例: https://api.us-south.watson-orchestrate.cloud.ibm.com/instances/xxx)
 
-### GitHub Secretsの設定方法
+### GitHub Secrets の設定方法
 
-1. GitHubリポジトリの「Settings」タブを開く
+1. GitHub リポジトリの「Settings」タブを開く
 2. 左メニューの「Secrets and variables」→「Actions」を選択
 3. 「New repository secret」をクリック
-4. 上記の各Secretを追加
+4. 上記の各 Secret を追加
 
-### Watson Orchestrateの認証情報取得
+### watsonx Orchestrate の認証情報取得
 
-Watson Orchestrateの認証情報は以下の方法で取得できます：
+watsonx Orchestrate の認証情報は以下の方法で取得できます：
 
 1. IBM Cloud コンソールにログイン
-2. Watson Orchestrate インスタンスを選択
+2. watsonx Orchestrate インスタンスを選択
 3. 「サービス資格情報」から API キーを取得
-4. インスタンス ID と URL を確認
+4. サービスインスタンス URL を確認（`https://api.us-south.watson-orchestrate.cloud.ibm.com/instances/your-instance-id` の形式）
 
 ## デプロイ
 
-mainブランチにプッシュまたはプルリクエストを作成すると、GitHub Actionsが自動的に：
+main ブランチにプッシュまたはプルリクエストを作成すると、GitHub Actions が自動的に：
 
-1. Pythonとdependenciesをインストール
-2. Watson Orchestrateにツールをインポート
+1. Python と dependencies をインストール
+2. watsonx Orchestrate にツールをインポート
 3. エージェントをデプロイ
 
 ## ローカルでのテスト
 
 ```bash
-# Watson Orchestrate ADKをインストール
+# watsonx Orchestrate ADKをインストール
 pip install ibm-watsonx-orchestrate
 
-# 認証設定
-orchestrate configure --api-key YOUR_API_KEY --instance-id YOUR_INSTANCE_ID --url YOUR_URL
+# 環境設定
+orchestrate env add -n local -u YOUR_URL
+orchestrate env activate local --api-key YOUR_API_KEY
 
 # ツールをインポート
 orchestrate tools import -f tools/
@@ -54,7 +54,7 @@ orchestrate agents import -f agents/hello-agent.yaml
 
 ## プロジェクト構造
 
-```
+```text
 .
 ├── .github/workflows/
 │   └── deploy.yml          # GitHub Actions ワークフロー
