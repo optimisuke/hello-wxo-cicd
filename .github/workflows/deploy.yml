@@ -34,7 +34,7 @@ jobs:
 
       - name: Import tools
         run: |
-          orchestrate tools import -f tools/
+          orchestrate tools import -k python -f tools/return_hello.py
 
       - name: Import agents
         run: |
