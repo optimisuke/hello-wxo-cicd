@@ -32,8 +32,8 @@ watsonx Orchestrate の認証情報は以下の方法で取得できます：
 main ブランチにプッシュまたはプルリクエストを作成すると、GitHub Actions が自動的に：
 
 1. Python と dependencies をインストール
-2. watsonx Orchestrate にツールをインポート
-3. エージェントをデプロイ
+2. watsonx Orchestrate にツールをデプロイ
+3. watsonx Orchestrate にエージェントをデプロイ
 
 ## ローカルでのテスト
 
@@ -42,11 +42,11 @@ main ブランチにプッシュまたはプルリクエストを作成すると
 pip install ibm-watsonx-orchestrate
 
 # 環境設定
-orchestrate env add -n local -u YOUR_URL
-orchestrate env activate local --api-key YOUR_API_KEY
+orchestrate env add -n test -u YOUR_URL
+orchestrate env activate test --api-key YOUR_API_KEY
 
 # ツールをインポート
-orchestrate tools import -f tools/
+orchestrate tools import -k python -f tools/return_hello.py
 
 # エージェントをインポート
 orchestrate agents import -f agents/hello-agent.yaml
